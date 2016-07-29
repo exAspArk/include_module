@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["exAspArk"]
   spec.email         = ["exaspark@gmail.com"]
 
-  spec.summary       = %q{Use mixins explicitly}
+  spec.summary       = %q{Include your modules explicitly}
   spec.description   = %q{Include your modules explicitly}
   spec.homepage      = "https://github.com/exAspArk/include_module"
   spec.license       = "MIT"
