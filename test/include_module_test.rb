@@ -1,9 +1,7 @@
-require "minitest/autorun"
-require "pry-byebug"
+require_relative './test_helper'
 
 require_relative '../lib/include_module'
-
-require_relative './test_modules'
+require_relative "./test_modules"
 
 module IncludeModuleTest
   class Including < Minitest::Test
