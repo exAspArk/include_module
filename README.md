@@ -15,7 +15,7 @@ There are some general problems with mixins, and a lot of people complain about 
 > * Mixins cause name clashes
 > * Mixins cause snowballing complexity
 
-The **include_module** gem was created to avoid these problems with mixins, aka `module` in Ruby.
+The **include_module** gem was created to avoid these problems with mixins, aka `module` in Ruby. It is a simple library with just 100 LOC
 
 ## Usage
 
