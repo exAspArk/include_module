@@ -1,5 +1,5 @@
 module IncludeModule
-  def include_module(new_module, instance_methods: [], class_methods: [], included: true)
+  def include_module(new_module, instance_methods: [], class_methods: [], included: false)
     if is_a?(Class)
       __include_class_methods_in_class(new_module: new_module, method_names: class_methods)
       __include_included_blocks_in_class(new_module: new_module, included: included)
