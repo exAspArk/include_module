@@ -2,6 +2,9 @@ require "minitest/autorun"
 require "pry-byebug"
 
 if ENV['CI']
-  require "coveralls"
-  Coveralls.wear!
+  require 'simplecov'
+  SimpleCov.start
+
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end

@@ -1,7 +1,7 @@
 # include_module
 
 [![Build Status](https://travis-ci.org/exAspArk/include_module.svg)](https://travis-ci.org/exAspArk/include_module)
-[![Coverage Status](https://coveralls.io/repos/github/exAspArk/include_module/badge.svg)](https://coveralls.io/github/exAspArk/include_module)
+[![codecov](https://codecov.io/gh/exAspArk/include_module/branch/master/graph/badge.svg)](https://codecov.io/gh/exAspArk/include_module)
 [![Code Climate](https://codeclimate.com/github/exAspArk/include_module/badges/gpa.svg)](https://codeclimate.com/github/exAspArk/include_module)
 
 There are some general problems with mixins, and a lot of people complain about
