@@ -8,6 +8,10 @@ one of the following labels: `Added`, `Changed`, `Deprecated`,
 Versioning](http://semver.org) to manage the versions of this gem so
 that you can set version constraints properly.
 
-### [Unreleased](https://github.com/exAspArk/include_module/compare/9bfa492...HEAD)
+#### [Unreleased](https://github.com/exAspArk/include_module/compare/v0.1.0...HEAD)
+
+* WIP
+
+#### [v0.1.0](https://github.com/exAspArk/include_module/compare/9bfa492...v0.1.0) – 2016-08-16
 
 * `Added`: initial functional version with docs
