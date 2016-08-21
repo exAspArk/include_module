@@ -1,6 +1,6 @@
 .PHONY: test
 
 test:
-	bundle exec m test/include_module_test.rb
+	bundle exec m test
 release:
 	bundle exec rake release

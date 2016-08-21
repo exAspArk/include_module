@@ -4,7 +4,7 @@ rvm:
   - 2.2.5
   - 2.3.1
 env:
-  - CI=true CODECOV_TOKEN=14ab1155-c49c-4161-baec-df8bdceab4c9
+  - CI=true
 before_install: gem install bundler
 install: bundle install
 script: make test
