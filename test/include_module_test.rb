@@ -8,10 +8,8 @@ module IncludeModuleTest
     class WithTestModule
       extend IncludeModule
 
-      include_module TestModule,
-        instance_methods: [:foo, bar: :baz],
-        class_methods: [:bar, :included_ran, :included_ran=, foo: :foz],
-        included: true
+      extend_module TestModule::ClassMethods, methods: [:bar, :included_ran, :included_ran=, foo: :foz]
+      include_module TestModule, methods: [:foo, bar: :baz], included: true
     end
 
     def test_including_instance_methods
@@ -60,7 +58,9 @@ module IncludeModuleTest
   class IncludingNested < Minitest::Test
     class WithNestedTestModule
       extend IncludeModule
-      include_module NestedTestModule, instance_methods: :all, class_methods: :all, included: true
+
+      extend_module NestedTestModule::ClassMethods, methods: :all
+      include_module NestedTestModule, methods: :all, included: true
     end
 
     def test_including_instance_methods
@@ -99,7 +99,8 @@ module IncludeModuleTest
   class IncludingDeeplyNested < Minitest::Test
     class WithDeeplyNestedTestModule
       extend IncludeModule
-      include_module NestedModule3, instance_methods: :all, class_methods: :all, included: true
+      extend_module NestedModule3::ClassMethods, methods: :all
+      include_module NestedModule3, methods: :all, included: true
     end
 
     def test_including_instance_methods

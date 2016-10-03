@@ -27,7 +27,7 @@ them:
 
 The **include_module** gem was created to help you to use mixing (aka `module` in Ruby)
 explicitly.
-It is a simple library with just 100 LOC, with
+It is a simple library with just 90 LOC, with
 zero dependencies, without any monkey patches and method overridings.
 
 ## Usage
@@ -103,14 +103,14 @@ Why can't we define explicitly which methods we would like to use from a mixin?
 
 ```ruby
 module UserMixin
-  INCLUDED = proc do
-    belongs_to :account
-  end
-
   module ClassMethods
     def top_user
       User.order(rating: :desc).first
     end
+  end
+
+  INCLUDED = proc do
+    belongs_to :account
   end
 
   def name
@@ -121,7 +121,8 @@ end
 class User
   extend IncludeModule
 
-  include_module UserMixin, included: true, class_methods: [:top_user], instance_methods: [:name]
+  extend_module UserMixin::ClassMethods, methods: [:top_user]
+  include_module UserMixin, included: true, methods: [:name]
 end
 ```
 
@@ -145,7 +146,8 @@ It is almost in-place replacement for `ActiveSupport::Concern`. Here is a diff:
 +  extend IncludeModule
 +
 -  include_module UserMixin
-+  include_module UserMixin, included: true, class_methods: [:top_user], instance_methods: [:name]
++  extend_module UserMixin::ClassMethods, methods: [:top_user]
++  include_module UserMixin, included: true, methods: [:name]
  end
 ```
 
@@ -156,7 +158,7 @@ while including in order to avoid name clashes, etc. Please see more examples be
 
 * Include no methods
 
-When you add `extend IncludeModule`, you add just one public method called `include_module` in
+When you add `extend IncludeModule`, you add just 2 public methods called `include_module` and `extend_module` in
 your class.
 
 ```ruby
@@ -175,7 +177,7 @@ If you want to include everything from your module, you can pass the following o
 ```ruby
 class User
   extend IncludeModule
-  include_module UserMixin, included: true, class_methods: :all, instance_methods: :all
+  include_module UserMixin, included: true, methods: :all
 end
 ```
 
@@ -199,7 +201,7 @@ end
 
 class TestClass
   extend IncludeModule
-  include_module TestModule, instance_methods: [:foo]
+  include_module TestModule, methods: [:foo]
 end
 ```
 
@@ -211,7 +213,7 @@ It basically creates a new anonymous module which contains only specified method
 ```ruby
 class User
   extend IncludeModule
-  include_module UserMixin, instance_methods: [name: :full_name]
+  include_module UserMixin, methods: [name: :full_name]
 end
 ```
 

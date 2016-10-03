@@ -1,40 +1,32 @@
 module IncludeModule
-  def include_module(new_module, instance_methods: [], class_methods: [], included: false)
+  def extend_module(new_module, methods: [])
+    return if methods.empty?
+    __extend_methods(new_module: new_module, method_names: methods)
+  end
+
+  def include_module(new_module, methods: [], included: false)
     if is_a?(Class)
-      __include_class_methods_in_class(new_module: new_module, method_names: class_methods)
-      __include_included_blocks_in_class(new_module: new_module, included: included)
-    else
-      __include_class_methods_in_module(new_module: new_module, method_names: class_methods)
-      __store_included_block_in_module(new_module: new_module, included: included)
+      __include_included_blocks(new_module: new_module, included: included)
+    elsif is_a?(Module)
+      __store_included_block(new_module: new_module, included: included)
     end
 
-    __include_instance_methods(new_module: new_module, method_names: instance_methods)
+    return if methods.empty?
+    __include_methods(new_module: new_module, method_names: methods)
   end
 
   private
 
-  def __include_class_methods_in_class(new_module:, method_names:)
-    return if method_names.empty?
-    class_methods_module = __class_methods_module(new_module)
-
+  def __extend_methods(new_module:, method_names:)
     if method_names == :all
-      extend class_methods_module
+      extend(new_module)
     else
-      extend __map_module_instance_methods!(new_module: class_methods_module.dup, method_names: method_names)
+      new_mapped_module = __map_module_methods!(new_module: new_module.dup, method_names: method_names)
+      extend(new_mapped_module)
     end
   end
 
-  def __include_class_methods_in_module(new_module:, method_names:)
-    return if method_names.empty?
-
-    __include_instance_methods(
-      new_module: __class_methods_module(new_module),
-      method_names: method_names,
-      include_in: __class_methods_module(self)
-    )
-  end
-
-  def __include_included_blocks_in_class(new_module:, included:)
+  def __include_included_blocks(new_module:, included:)
     return unless included
 
     included_blocks = new_module.instance_variable_get(:@__included_blocks) || []
@@ -42,23 +34,23 @@ module IncludeModule
     included_blocks.each { |included_block| class_eval(&included_block) }
   end
 
-  def __store_included_block_in_module(new_module:, included:)
+  def __store_included_block(new_module:, included:)
     return unless included
 
     @__included_blocks = new_module.instance_variable_get(:@__included_blocks) || []
     @__included_blocks << new_module::INCLUDED if new_module.const_defined?(:INCLUDED)
   end
 
-  def __include_instance_methods(new_module:, method_names:, include_in: self)
+  def __include_methods(new_module:, method_names:)
     if method_names == :all
-      include_in.include(new_module)
+      include(new_module)
     else
-      new_mapped_module = __map_module_instance_methods!(new_module: new_module.dup, method_names: method_names)
-      include_in.include(new_mapped_module)
+      new_mapped_module = __map_module_methods!(new_module: new_module.dup, method_names: method_names)
+      include(new_mapped_module)
     end
   end
 
-  def __map_module_instance_methods!(new_module:, method_names:)
+  def __map_module_methods!(new_module:, method_names:)
     new_method_name_by_original_method_name = __new_method_name_by_original_method_name(method_names)
 
     new_module.instance_methods.each do |original_method_name|
@@ -86,14 +78,6 @@ module IncludeModule
       else
         result[method_name] = method_name
       end
-    end
-  end
-
-  def __class_methods_module(new_module)
-    if new_module.const_defined?(:ClassMethods)
-      new_module.const_get(:ClassMethods)
-    else
-      new_module.const_set(:ClassMethods, Module.new)
     end
   end
 end

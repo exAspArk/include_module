@@ -17,9 +17,12 @@ module IncludeModuleTest
 
   module NestedTestModule
     extend IncludeModule
-    include_module TestModule, instance_methods: :all, class_methods: :all, included: false
+    include_module TestModule, methods: :all, included: false
 
     module ClassMethods
+      extend IncludeModule
+      include_module TestModule::ClassMethods, methods: :all
+
       def foo; "foo + #{super}"; end
       def included_ran2=(value); @included_ran2 = value; end
       def included_ran2; @included_ran2; end
@@ -43,9 +46,12 @@ module IncludeModuleTest
 
   module NestedModule2
     extend IncludeModule
-    include_module TestModule1, instance_methods: :all, class_methods: :all, included: true
+    include_module TestModule1, methods: :all, included: true
 
     module ClassMethods
+      extend IncludeModule
+      include_module TestModule1::ClassMethods, methods: :all
+
       def bar; "#{super} + bar22"; end
     end
 
@@ -56,9 +62,12 @@ module IncludeModuleTest
 
   module NestedModule3
     extend IncludeModule
-    include_module NestedModule2, instance_methods: :all, class_methods: :all, included: true
+    include_module NestedModule2, methods: :all, included: true
 
     module ClassMethods
+      extend IncludeModule
+      include_module NestedModule2::ClassMethods, methods: :all
+
       def bar; "#{super} + bar32"; end
     end
 
