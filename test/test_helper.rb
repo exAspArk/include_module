@@ -1,7 +1,7 @@
 require "minitest/autorun"
 require "pry-byebug"
 
-if ENV['CI']
+if false # ENV['CI']
   require 'simplecov'
   SimpleCov.start
 
