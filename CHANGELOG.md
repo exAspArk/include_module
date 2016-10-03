@@ -12,7 +12,7 @@ that you can set version constraints properly.
 
 * WIP
 
-#### [v1.0.0](https://github.com/exAspArk/include_module/compare/v0.1.0...v1.0.0) – 2016-09-16
+#### [v1.0.0](https://github.com/exAspArk/include_module/compare/v0.1.0...v1.0.0) – 2016-10-03
 
 * `Changed`: use `extend_module` for class methods:
 
